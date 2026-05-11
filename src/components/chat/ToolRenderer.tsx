@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { Loader2 } from "lucide-react";
+import type { ReactElement } from "react";
 import { StockCard, type StockData } from "./StockCard";
 import { WeatherCard, type WeatherData } from "./WeatherCard";
 import { CryptoCard, type CryptoData } from "./CryptoCard";
@@ -9,7 +10,7 @@ import { GithubCard, type GithubData } from "./GithubCard";
  * Component registry: maps tool name -> renderer.
  * We never store React elements in state; we render from structured data.
  */
-const REGISTRY: Record<string, (output: unknown) => JSX.Element> = {
+const REGISTRY: Record<string, (output: unknown) => ReactElement> = {
   showStockPrice: (o) => <StockCard data={o as StockData} />,
   getWeather: (o) => <WeatherCard data={o as WeatherData} />,
   showCryptoPrice: (o) => <CryptoCard data={o as CryptoData} />,

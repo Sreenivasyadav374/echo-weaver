@@ -1,26 +1,25 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { ChatWindow } from "@/components/chat/ChatWindow";
 
 export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title: "Lovable AI Chat — Generative UI Assistant" },
+      {
+        name: "description",
+        content:
+          "A premium AI chat experience with generative UI: live stock, weather, crypto, and GitHub cards.",
+      },
+      { property: "og:title", content: "Lovable AI Chat — Generative UI Assistant" },
+      {
+        property: "og:description",
+        content: "Streaming AI chat with tool-rendered interactive cards.",
+      },
+    ],
+  }),
   component: Index,
 });
 
-// IMPORTANT: Replace this placeholder. For sites with multiple pages (About, Services, Contact, etc.),
-// create separate route files (about.tsx, services.tsx, contact.tsx) — don't put all pages in this file.
-function PlaceholderIndex() {
-  return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
-  );
-}
-
 function Index() {
-  return <PlaceholderIndex />;
+  return <ChatWindow />;
 }
