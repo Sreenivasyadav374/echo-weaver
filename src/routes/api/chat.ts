@@ -4,15 +4,13 @@ import { convertToModelMessages, streamText, stepCountIs, type UIMessage } from 
 import { createOpenRouter, DEFAULT_MODEL } from "@/lib/ai/openrouter";
 import { chatTools } from "@/lib/tools";
 
-const SYSTEM_PROMPT = `You are a helpful, friendly AI assistant with access to tools that render rich UI cards.
-
-When users ask about:
-- Stocks → call \`showStockPrice\`
-- Weather → call \`getWeather\`
-- Crypto / coins → call \`showCryptoPrice\`
-- GitHub repositories → call \`getGithubRepo\`
-
-After calling a tool, give a short natural-language summary. Use markdown for formatting and \`\`\`language code blocks for code.`;
+const SYSTEM_PROMPT = `You are a concise AI assistant.
+Tools (call only when clearly relevant; then add 1 short sentence):
+- showStockPrice(symbol) — stocks
+- getWeather(city) — weather
+- showCryptoPrice(symbol) — crypto
+- getGithubRepo(repo) — GitHub repos
+Markdown allowed. Keep replies brief. If user sends an image, describe/answer about it directly.`;
 
 export const Route = createFileRoute("/api/chat")({
   server: {
