@@ -58,10 +58,8 @@ export const chatTools = {
   }),
 
   showCryptoPrice: tool({
-    description: "Show a crypto price widget for a coin symbol like BTC, ETH, SOL.",
-    inputSchema: z.object({
-      symbol: z.string().describe("Crypto symbol e.g. BTC, ETH"),
-    }),
+    description: "Crypto price card (BTC, ETH, SOL...).",
+    inputSchema: z.object({ symbol: z.string() }),
     execute: async ({ symbol }) => {
       const map: Record<string, number> = { BTC: 68000, ETH: 3500, SOL: 180, DOGE: 0.16 };
       const s = symbol.toUpperCase();
