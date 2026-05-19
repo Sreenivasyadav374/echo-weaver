@@ -29,7 +29,6 @@ export function ChatWindow() {
     },
   });
 
-  // Auto-scroll
   useEffect(() => {
     const el = scrollRef.current;
     if (!el) return;
@@ -58,7 +57,7 @@ export function ChatWindow() {
   const lastMessage = messages[messages.length - 1];
 
   return (
-    <div className="flex h-screen overflow-hidden bg-background text-foreground">
+    <div className="flex h-[100dvh] overflow-hidden bg-background text-foreground">
       <ChatSidebar
         open={sidebarOpen}
         onClose={() => setSidebarOpen(false)}
@@ -72,22 +71,16 @@ export function ChatWindow() {
       />
 
       <div className="relative flex min-w-0 flex-1 flex-col">
-        {/* Background flourish */}
-        <div className="pointer-events-none absolute inset-0 overflow-hidden">
-          <div className="absolute -left-32 -top-32 h-96 w-96 rounded-full bg-primary/15 blur-3xl" />
-          <div className="absolute -bottom-32 -right-32 h-96 w-96 rounded-full bg-accent/15 blur-3xl" />
-        </div>
-
         {/* Mobile header */}
-        <header className="relative z-10 flex items-center justify-between border-b border-border/60 bg-background/60 px-4 py-3 backdrop-blur-md md:hidden">
+        <header className="relative z-10 flex items-center justify-between border-b border-border/60 bg-background/80 px-3 py-2.5 backdrop-blur-md md:hidden">
           <button
             onClick={() => setSidebarOpen(true)}
-            className="flex h-9 w-9 items-center justify-center rounded-lg hover:bg-muted"
+            className="flex h-9 w-9 items-center justify-center rounded-md text-muted-foreground hover:bg-muted hover:text-foreground"
             aria-label="Open menu"
           >
-            <Menu className="h-5 w-5" />
+            <Menu className="h-[18px] w-[18px]" />
           </button>
-          <div className="text-sm font-semibold">Lovable Chat</div>
+          <div className="text-sm font-medium tracking-tight">Chat</div>
           <div className="w-9" />
         </header>
 
@@ -96,7 +89,7 @@ export function ChatWindow() {
           {messages.length === 0 ? (
             <EmptyState onSelect={(text) => sendMessage({ text })} />
           ) : (
-            <div className="mx-auto flex w-full max-w-3xl flex-col gap-6 px-4 py-8">
+            <div className="mx-auto flex w-full max-w-2xl flex-col gap-8 px-4 py-10 sm:px-6">
               <AnimatePresence initial={false}>
                 {messages.map((m, i) => (
                   <MessageBubble
@@ -109,10 +102,7 @@ export function ChatWindow() {
               </AnimatePresence>
               {status === "submitted" &&
                 (!lastMessage || lastMessage.role === "user") && (
-                  <div className="flex items-center gap-3">
-                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-primary shadow-glow" />
-                    <TypingIndicator />
-                  </div>
+                  <TypingIndicator />
                 )}
             </div>
           )}
