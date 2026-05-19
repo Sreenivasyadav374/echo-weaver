@@ -81,10 +81,8 @@ export const chatTools = {
   }),
 
   getGithubRepo: tool({
-    description: "Fetch a public GitHub repository's metadata. Input is 'owner/repo'.",
-    inputSchema: z.object({
-      repo: z.string().describe("Full repo path, e.g. vercel/ai"),
-    }),
+    description: "Public GitHub repo metadata. Input 'owner/repo'.",
+    inputSchema: z.object({ repo: z.string() }),
     execute: async ({ repo }) => {
       try {
         const res = await fetch(`https://api.github.com/repos/${repo}`, {
