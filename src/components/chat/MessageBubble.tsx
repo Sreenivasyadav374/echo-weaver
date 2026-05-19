@@ -66,8 +66,31 @@ export function MessageBubble({ message, onRegenerate, isLast }: Props) {
               </div>
             );
           }
+          if (part.type === "file") {
+            const filePart = part as { type: "file"; mediaType?: string; url: string; filename?: string };
+            if (filePart.mediaType?.startsWith("image/")) {
+              return (
+                <img
+                  key={idx}
+                  src={filePart.url}
+                  alt={filePart.filename ?? "attachment"}
+                  className="max-h-80 max-w-full rounded-2xl border border-border/60 object-cover shadow-elegant"
+                />
+              );
+            }
+            return (
+              <a
+                key={idx}
+                href={filePart.url}
+                target="_blank"
+                rel="noreferrer"
+                className="text-xs text-primary underline"
+              >
+                {filePart.filename ?? "file"}
+              </a>
+            );
+          }
           if (part.type.startsWith("tool-")) {
-            // AI SDK v5+ tool parts
             return <ToolRenderer key={idx} part={part as never} />;
           }
           return null;

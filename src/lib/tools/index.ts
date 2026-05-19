@@ -7,11 +7,8 @@ import { z } from "zod";
  */
 export const chatTools = {
   showStockPrice: tool({
-    description:
-      "Show a real-time-looking stock price card for a given ticker symbol. Use when the user asks about a stock.",
-    inputSchema: z.object({
-      symbol: z.string().describe("Ticker symbol, e.g. AAPL, TSLA, NVDA"),
-    }),
+    description: "Stock price card for a ticker.",
+    inputSchema: z.object({ symbol: z.string() }),
     execute: async ({ symbol }) => {
       // Deterministic-ish mock so the UI is meaningful without a paid API.
       const seed = [...symbol.toUpperCase()].reduce((a, c) => a + c.charCodeAt(0), 0);
@@ -36,10 +33,8 @@ export const chatTools = {
   }),
 
   getWeather: tool({
-    description: "Get current weather for a city. Use when the user asks about weather.",
-    inputSchema: z.object({
-      city: z.string().describe("City name, e.g. San Francisco"),
-    }),
+    description: "Current weather for a city.",
+    inputSchema: z.object({ city: z.string() }),
     execute: async ({ city }) => {
       const conditions = ["Sunny", "Partly cloudy", "Cloudy", "Rainy", "Snowy", "Windy"] as const;
       const seed = [...city.toLowerCase()].reduce((a, c) => a + c.charCodeAt(0), 0);
@@ -63,10 +58,8 @@ export const chatTools = {
   }),
 
   showCryptoPrice: tool({
-    description: "Show a crypto price widget for a coin symbol like BTC, ETH, SOL.",
-    inputSchema: z.object({
-      symbol: z.string().describe("Crypto symbol e.g. BTC, ETH"),
-    }),
+    description: "Crypto price card (BTC, ETH, SOL...).",
+    inputSchema: z.object({ symbol: z.string() }),
     execute: async ({ symbol }) => {
       const map: Record<string, number> = { BTC: 68000, ETH: 3500, SOL: 180, DOGE: 0.16 };
       const s = symbol.toUpperCase();
@@ -88,10 +81,8 @@ export const chatTools = {
   }),
 
   getGithubRepo: tool({
-    description: "Fetch a public GitHub repository's metadata. Input is 'owner/repo'.",
-    inputSchema: z.object({
-      repo: z.string().describe("Full repo path, e.g. vercel/ai"),
-    }),
+    description: "Public GitHub repo metadata. Input 'owner/repo'.",
+    inputSchema: z.object({ repo: z.string() }),
     execute: async ({ repo }) => {
       try {
         const res = await fetch(`https://api.github.com/repos/${repo}`, {
