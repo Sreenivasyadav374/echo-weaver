@@ -119,7 +119,7 @@ export function ChatWindow() {
         </div>
 
         <ChatInput
-          onSubmit={(text) => sendMessage({ text })}
+          onSubmit={(text, files) => sendMessage({ text, files })}
           onStop={stop}
           disabled={isStreaming}
           isStreaming={isStreaming}
