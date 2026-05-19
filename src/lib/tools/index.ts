@@ -33,10 +33,8 @@ export const chatTools = {
   }),
 
   getWeather: tool({
-    description: "Get current weather for a city. Use when the user asks about weather.",
-    inputSchema: z.object({
-      city: z.string().describe("City name, e.g. San Francisco"),
-    }),
+    description: "Current weather for a city.",
+    inputSchema: z.object({ city: z.string() }),
     execute: async ({ city }) => {
       const conditions = ["Sunny", "Partly cloudy", "Cloudy", "Rainy", "Snowy", "Windy"] as const;
       const seed = [...city.toLowerCase()].reduce((a, c) => a + c.charCodeAt(0), 0);
