@@ -119,7 +119,15 @@ export function ChatWindow() {
         </div>
 
         <ChatInput
-          onSubmit={(text, files) => sendMessage({ text, files })}
+          onSubmit={(text, files) => {
+            let fileList: FileList | undefined;
+            if (files && files.length) {
+              const dt = new DataTransfer();
+              files.forEach((f) => dt.items.add(f));
+              fileList = dt.files;
+            }
+            sendMessage({ text, files: fileList });
+          }}
           onStop={stop}
           disabled={isStreaming}
           isStreaming={isStreaming}
