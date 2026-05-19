@@ -7,11 +7,8 @@ import { z } from "zod";
  */
 export const chatTools = {
   showStockPrice: tool({
-    description:
-      "Show a real-time-looking stock price card for a given ticker symbol. Use when the user asks about a stock.",
-    inputSchema: z.object({
-      symbol: z.string().describe("Ticker symbol, e.g. AAPL, TSLA, NVDA"),
-    }),
+    description: "Stock price card for a ticker.",
+    inputSchema: z.object({ symbol: z.string() }),
     execute: async ({ symbol }) => {
       // Deterministic-ish mock so the UI is meaningful without a paid API.
       const seed = [...symbol.toUpperCase()].reduce((a, c) => a + c.charCodeAt(0), 0);
