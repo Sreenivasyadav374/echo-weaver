@@ -123,30 +123,30 @@ export function ChatInput({ onSubmit, onStop, disabled, isStreaming }: Props) {
   }
 
   return (
-    <div className="sticky bottom-0 z-10 w-full bg-gradient-to-t from-background via-background to-transparent pb-4 pt-6">
+    <div className="sticky bottom-0 z-10 w-full bg-gradient-to-t from-background via-background to-transparent pb-3 pt-4 sm:pb-4 sm:pt-6">
       <motion.div
-        initial={{ y: 12, opacity: 0 }}
+        initial={{ y: 8, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        className="glass mx-auto flex w-full max-w-3xl flex-col gap-2 rounded-3xl border border-border/60 p-2 pl-3 shadow-elegant"
+        className="mx-auto flex w-full max-w-2xl flex-col gap-2 rounded-2xl border border-border/60 bg-card px-2.5 py-2 sm:px-3"
       >
         {attachments.length > 0 && (
-          <div className="flex flex-wrap gap-2 px-1 pt-1">
+          <div className="flex flex-wrap gap-1.5 px-0.5 pt-1">
             {attachments.map((a, i) => (
-              <div key={i} className="relative h-16 w-16 overflow-hidden rounded-lg border border-border/60">
+              <div key={i} className="group/att relative h-12 w-12 overflow-hidden rounded-md">
                 <img src={a.url} alt={a.file.name} className="h-full w-full object-cover" />
                 <button
                   type="button"
                   onClick={() => removeAttachment(i)}
-                  className="absolute right-0.5 top-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-background/80 text-foreground hover:bg-background"
+                  className="absolute inset-0 flex items-center justify-center bg-foreground/60 text-background opacity-0 transition-opacity group-hover/att:opacity-100"
                   aria-label="Remove attachment"
                 >
-                  <X className="h-3 w-3" />
+                  <X className="h-3.5 w-3.5" />
                 </button>
               </div>
             ))}
           </div>
         )}
-        <div className="flex w-full items-end gap-2">
+        <div className="flex w-full items-end gap-1">
           <input
             ref={fileRef}
             type="file"
@@ -161,10 +161,10 @@ export function ChatInput({ onSubmit, onStop, disabled, isStreaming }: Props) {
           <button
             type="button"
             onClick={() => fileRef.current?.click()}
-            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-muted-foreground hover:bg-muted"
+            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md text-muted-foreground hover:bg-muted hover:text-foreground"
             aria-label="Attach image"
           >
-            <Paperclip className="h-4 w-4" />
+            <Paperclip className="h-[15px] w-[15px]" />
           </button>
           <textarea
             ref={ref}
@@ -173,44 +173,47 @@ export function ChatInput({ onSubmit, onStop, disabled, isStreaming }: Props) {
             onChange={(e) => setValue(e.target.value)}
             onKeyDown={onKeyDown}
             onPaste={onPaste}
-            placeholder="Message AI…  (paste or attach images)"
-            className="max-h-[220px] min-h-[28px] flex-1 resize-none border-0 bg-transparent py-2.5 text-sm leading-relaxed outline-none placeholder:text-muted-foreground"
+            placeholder="Message…"
+            className="max-h-[220px] min-h-[28px] flex-1 resize-none border-0 bg-transparent px-1 py-1.5 text-[15px] leading-relaxed outline-none placeholder:text-muted-foreground"
           />
           <button
             type="button"
             onClick={toggleMic}
-            className={`flex h-9 w-9 items-center justify-center rounded-full transition ${
-              listening ? "bg-destructive text-destructive-foreground" : "text-muted-foreground hover:bg-muted"
+            className={`flex h-8 w-8 items-center justify-center rounded-md transition ${
+              listening
+                ? "bg-foreground text-background"
+                : "text-muted-foreground hover:bg-muted hover:text-foreground"
             }`}
             aria-label="Voice input"
           >
-            {listening ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
+            {listening ? <MicOff className="h-[15px] w-[15px]" /> : <Mic className="h-[15px] w-[15px]" />}
           </button>
           {isStreaming ? (
             <button
               type="button"
               onClick={onStop}
-              className="flex h-9 w-9 items-center justify-center rounded-full bg-destructive text-destructive-foreground shadow-glow transition hover:scale-105"
+              className="flex h-8 w-8 items-center justify-center rounded-md bg-foreground text-background transition hover:opacity-90"
               aria-label="Stop"
             >
-              <Square className="h-4 w-4" />
+              <Square className="h-[14px] w-[14px]" />
             </button>
           ) : (
             <button
               type="button"
               onClick={send}
               disabled={(!value.trim() && attachments.length === 0) || disabled}
-              className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-primary text-primary-foreground shadow-glow transition hover:scale-105 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:scale-100"
+              className="flex h-8 w-8 items-center justify-center rounded-md bg-foreground text-background transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-30"
               aria-label="Send"
             >
-              <ArrowUp className="h-4 w-4" />
+              <ArrowUp className="h-[15px] w-[15px]" />
             </button>
           )}
         </div>
       </motion.div>
-      <p className="mx-auto mt-2 max-w-3xl text-center text-[11px] text-muted-foreground">
+      <p className="mx-auto mt-2 max-w-2xl px-4 text-center text-[11px] text-muted-foreground">
         AI can make mistakes. Verify important info.
       </p>
     </div>
   );
 }
+
