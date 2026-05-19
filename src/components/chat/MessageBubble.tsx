@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Bot, Check, Copy, RotateCw, User } from "lucide-react";
+import { Check, Copy, RotateCw } from "lucide-react";
 import { useState } from "react";
 import type { UIMessage } from "ai";
 import { MarkdownRenderer } from "./MarkdownRenderer";
@@ -28,36 +28,23 @@ export function MessageBubble({ message, onRegenerate, isLast }: Props) {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 8 }}
+      initial={{ opacity: 0, y: 4 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.25 }}
-      className={`group flex gap-3 ${isUser ? "flex-row-reverse" : "flex-row"}`}
+      transition={{ duration: 0.2 }}
+      className="group flex w-full flex-col gap-2"
     >
-      <div
-        className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full ${
-          isUser
-            ? "bg-primary text-primary-foreground"
-            : "bg-gradient-primary text-primary-foreground shadow-glow"
-        }`}
-      >
-        {isUser ? <User className="h-4 w-4" /> : <Bot className="h-4 w-4" />}
+      <div className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
+        {isUser ? "You" : "Assistant"}
       </div>
 
-      <div className={`flex max-w-[85%] flex-col gap-2 ${isUser ? "items-end" : "items-start"}`}>
+      <div className="flex flex-col gap-2.5">
         {message.parts.map((part, idx) => {
           if (part.type === "text") {
             if (!part.text) return null;
             return (
-              <div
-                key={idx}
-                className={
-                  isUser
-                    ? "rounded-2xl rounded-tr-sm bg-primary px-4 py-2.5 text-primary-foreground shadow-elegant"
-                    : "text-foreground"
-                }
-              >
+              <div key={idx} className="text-foreground">
                 {isUser ? (
-                  <div className="whitespace-pre-wrap break-words text-sm leading-relaxed">
+                  <div className="whitespace-pre-wrap break-words text-[15px] leading-relaxed">
                     {part.text}
                   </div>
                 ) : (
@@ -74,7 +61,7 @@ export function MessageBubble({ message, onRegenerate, isLast }: Props) {
                   key={idx}
                   src={filePart.url}
                   alt={filePart.filename ?? "attachment"}
-                  className="max-h-80 max-w-full rounded-2xl border border-border/60 object-cover shadow-elegant"
+                  className="max-h-80 max-w-sm rounded-lg border border-border/60 object-cover"
                 />
               );
             }
@@ -84,7 +71,7 @@ export function MessageBubble({ message, onRegenerate, isLast }: Props) {
                 href={filePart.url}
                 target="_blank"
                 rel="noreferrer"
-                className="text-xs text-primary underline"
+                className="text-xs text-foreground underline underline-offset-2"
               >
                 {filePart.filename ?? "file"}
               </a>
@@ -97,10 +84,10 @@ export function MessageBubble({ message, onRegenerate, isLast }: Props) {
         })}
 
         {!isUser && text && (
-          <div className="flex gap-1 opacity-0 transition-opacity group-hover:opacity-100">
+          <div className="flex gap-0.5 opacity-0 transition-opacity group-hover:opacity-100">
             <button
               onClick={copy}
-              className="inline-flex items-center gap-1 rounded-md px-2 py-1 text-xs text-muted-foreground hover:bg-muted hover:text-foreground"
+              className="inline-flex items-center gap-1.5 rounded-md px-2 py-1 text-xs text-muted-foreground hover:bg-muted hover:text-foreground"
             >
               {copied ? <Check className="h-3 w-3" /> : <Copy className="h-3 w-3" />}
               {copied ? "Copied" : "Copy"}
@@ -108,7 +95,7 @@ export function MessageBubble({ message, onRegenerate, isLast }: Props) {
             {isLast && onRegenerate && (
               <button
                 onClick={onRegenerate}
-                className="inline-flex items-center gap-1 rounded-md px-2 py-1 text-xs text-muted-foreground hover:bg-muted hover:text-foreground"
+                className="inline-flex items-center gap-1.5 rounded-md px-2 py-1 text-xs text-muted-foreground hover:bg-muted hover:text-foreground"
               >
                 <RotateCw className="h-3 w-3" /> Regenerate
               </button>
