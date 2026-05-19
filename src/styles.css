@@ -170,6 +170,7 @@
     color: var(--color-foreground);
     font-feature-settings: "cv11", "ss01";
     -webkit-font-smoothing: antialiased;
+    letter-spacing: -0.011em;
   }
 }
 
