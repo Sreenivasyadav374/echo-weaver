@@ -85,7 +85,7 @@ export function ChatWindow() {
         </header>
 
         {/* Messages */}
-        <div ref={scrollRef} className="relative z-0 flex-1 overflow-y-auto">
+        <div ref={scrollRef} className="relative z-0 flex flex-1 flex-col overflow-y-auto">
           {messages.length === 0 ? (
             <EmptyState onSelect={(text) => sendMessage({ text })} />
           ) : (
