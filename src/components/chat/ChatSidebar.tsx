@@ -37,7 +37,7 @@ export function ChatSidebar({
         initial={false}
         animate={{ x: open ? 0 : "-100%" }}
         transition={{ type: "spring", stiffness: 300, damping: 32 }}
-        className="fixed inset-y-0 left-0 z-40 flex w-72 flex-col border-r border-border/60 bg-sidebar md:relative md:translate-x-0"
+        className="fixed inset-y-0 left-0 z-40 flex w-72 flex-col border-r border-border/60 bg-sidebar md:relative md:!translate-x-0"
       >
         <div className="flex items-center justify-between border-b border-border/60 px-4 py-4">
           <div>
