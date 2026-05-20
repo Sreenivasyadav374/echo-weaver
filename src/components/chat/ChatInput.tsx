@@ -123,24 +123,27 @@ export function ChatInput({ onSubmit, onStop, disabled, isStreaming }: Props) {
   }
 
   return (
-    <div className="sticky bottom-0 z-10 w-full bg-gradient-to-t from-background via-background to-transparent pb-3 pt-4 sm:pb-4 sm:pt-6">
+    <div className="sticky bottom-0 z-10 w-full bg-gradient-to-t from-zinc-950 via-zinc-950 to-transparent pb-3 pt-4 sm:pb-4 sm:pt-6">
       <motion.div
         initial={{ y: 8, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        className="mx-auto flex w-full max-w-2xl flex-col gap-2 rounded-2xl border border-border/60 bg-card px-2.5 py-2 sm:px-3"
+        className="mx-auto flex w-full max-w-3xl flex-col gap-2 rounded-xl border-[0.5px] border-zinc-800 bg-zinc-900/30 px-2.5 py-2 transition-colors focus-within:border-zinc-700/80 sm:px-3"
       >
         {attachments.length > 0 && (
           <div className="flex flex-wrap gap-1.5 px-0.5 pt-1">
             {attachments.map((a, i) => (
-              <div key={i} className="group/att relative h-12 w-12 overflow-hidden rounded-md">
+              <div
+                key={i}
+                className="group/att relative h-12 w-12 overflow-hidden rounded-md border-[0.5px] border-zinc-800"
+              >
                 <img src={a.url} alt={a.file.name} className="h-full w-full object-cover" />
                 <button
                   type="button"
                   onClick={() => removeAttachment(i)}
-                  className="absolute inset-0 flex items-center justify-center bg-foreground/60 text-background opacity-0 transition-opacity group-hover/att:opacity-100"
+                  className="absolute right-0.5 top-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-zinc-950/90 text-zinc-200 ring-[0.5px] ring-zinc-700 hover:bg-zinc-900"
                   aria-label="Remove attachment"
                 >
-                  <X className="h-3.5 w-3.5" />
+                  <X className="h-2.5 w-2.5" />
                 </button>
               </div>
             ))}
@@ -161,7 +164,7 @@ export function ChatInput({ onSubmit, onStop, disabled, isStreaming }: Props) {
           <button
             type="button"
             onClick={() => fileRef.current?.click()}
-            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md text-muted-foreground hover:bg-muted hover:text-foreground"
+            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md text-zinc-500 hover:bg-zinc-800/60 hover:text-zinc-200"
             aria-label="Attach image"
           >
             <Paperclip className="h-[15px] w-[15px]" />
@@ -174,15 +177,15 @@ export function ChatInput({ onSubmit, onStop, disabled, isStreaming }: Props) {
             onKeyDown={onKeyDown}
             onPaste={onPaste}
             placeholder="Message…"
-            className="max-h-[220px] min-h-[28px] flex-1 resize-none border-0 bg-transparent px-1 py-1.5 text-[15px] leading-relaxed outline-none placeholder:text-muted-foreground"
+            className="max-h-[220px] min-h-[28px] flex-1 resize-none border-0 bg-transparent px-1 py-1.5 text-sm leading-relaxed text-zinc-100 outline-none placeholder:text-zinc-500"
           />
           <button
             type="button"
             onClick={toggleMic}
             className={`flex h-8 w-8 items-center justify-center rounded-md transition ${
               listening
-                ? "bg-foreground text-background"
-                : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                ? "bg-zinc-100 text-zinc-950"
+                : "text-zinc-500 hover:bg-zinc-800/60 hover:text-zinc-200"
             }`}
             aria-label="Voice input"
           >
@@ -192,7 +195,7 @@ export function ChatInput({ onSubmit, onStop, disabled, isStreaming }: Props) {
             <button
               type="button"
               onClick={onStop}
-              className="flex h-8 w-8 items-center justify-center rounded-md bg-foreground text-background transition hover:opacity-90"
+              className="flex h-8 w-8 items-center justify-center rounded-md bg-zinc-100 text-zinc-950 transition hover:opacity-90"
               aria-label="Stop"
             >
               <Square className="h-[14px] w-[14px]" />
@@ -202,7 +205,7 @@ export function ChatInput({ onSubmit, onStop, disabled, isStreaming }: Props) {
               type="button"
               onClick={send}
               disabled={(!value.trim() && attachments.length === 0) || disabled}
-              className="flex h-8 w-8 items-center justify-center rounded-md bg-foreground text-background transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-30"
+              className="flex h-8 w-8 items-center justify-center rounded-md bg-zinc-100 text-zinc-950 transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-30"
               aria-label="Send"
             >
               <ArrowUp className="h-[15px] w-[15px]" />
@@ -210,10 +213,11 @@ export function ChatInput({ onSubmit, onStop, disabled, isStreaming }: Props) {
           )}
         </div>
       </motion.div>
-      <p className="mx-auto mt-2 max-w-2xl px-4 text-center text-[11px] text-muted-foreground">
+      <p className="mx-auto mt-2 max-w-3xl px-4 text-center font-mono text-xs text-zinc-500">
         AI can make mistakes. Verify important info.
       </p>
     </div>
   );
 }
+
 
