@@ -31,37 +31,49 @@ export function MessageBubble({ message, onRegenerate, isLast }: Props) {
       initial={{ opacity: 0, y: 4 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.2 }}
-      className="group flex w-full flex-col gap-2"
+      className={`group flex w-full ${isUser ? "justify-end" : "justify-start"}`}
     >
-      <div className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
-        {isUser ? "You" : "Assistant"}
-      </div>
-
-      <div className="flex flex-col gap-2.5">
+      <div
+        className={`flex max-w-full flex-col gap-2 ${
+          isUser ? "items-end" : "w-full items-start"
+        }`}
+      >
         {message.parts.map((part, idx) => {
           if (part.type === "text") {
             if (!part.text) return null;
+            if (isUser) {
+              return (
+                <div
+                  key={idx}
+                  className="max-w-[85%] whitespace-pre-wrap break-words rounded-xl rounded-tr-none border border-zinc-800/40 bg-zinc-900/60 px-3.5 py-2 text-sm font-normal leading-relaxed text-zinc-100"
+                >
+                  {part.text}
+                </div>
+              );
+            }
             return (
-              <div key={idx} className="text-foreground">
-                {isUser ? (
-                  <div className="whitespace-pre-wrap break-words text-[15px] leading-relaxed">
-                    {part.text}
-                  </div>
-                ) : (
-                  <MarkdownRenderer content={part.text} />
-                )}
+              <div
+                key={idx}
+                className="w-full text-sm font-normal leading-relaxed text-zinc-100"
+              >
+                <MarkdownRenderer content={part.text} />
               </div>
             );
           }
           if (part.type === "file") {
-            const filePart = part as { type: "file"; mediaType?: string; url: string; filename?: string };
+            const filePart = part as {
+              type: "file";
+              mediaType?: string;
+              url: string;
+              filename?: string;
+            };
             if (filePart.mediaType?.startsWith("image/")) {
               return (
                 <img
                   key={idx}
                   src={filePart.url}
                   alt={filePart.filename ?? "attachment"}
-                  className="max-h-80 max-w-sm rounded-lg border border-border/60 object-cover"
+                  className="max-h-80 max-w-sm rounded-lg border-[0.5px] border-zinc-800 object-cover"
                 />
               );
             }
@@ -71,7 +83,7 @@ export function MessageBubble({ message, onRegenerate, isLast }: Props) {
                 href={filePart.url}
                 target="_blank"
                 rel="noreferrer"
-                className="text-xs text-foreground underline underline-offset-2"
+                className="font-mono text-xs text-zinc-500 underline underline-offset-2 hover:text-zinc-300"
               >
                 {filePart.filename ?? "file"}
               </a>
@@ -87,7 +99,7 @@ export function MessageBubble({ message, onRegenerate, isLast }: Props) {
           <div className="flex gap-0.5 opacity-0 transition-opacity group-hover:opacity-100">
             <button
               onClick={copy}
-              className="inline-flex items-center gap-1.5 rounded-md px-2 py-1 text-xs text-muted-foreground hover:bg-muted hover:text-foreground"
+              className="inline-flex items-center gap-1.5 rounded-md px-2 py-1 font-mono text-xs text-zinc-500 hover:bg-zinc-900 hover:text-zinc-200"
             >
               {copied ? <Check className="h-3 w-3" /> : <Copy className="h-3 w-3" />}
               {copied ? "Copied" : "Copy"}
@@ -95,7 +107,7 @@ export function MessageBubble({ message, onRegenerate, isLast }: Props) {
             {isLast && onRegenerate && (
               <button
                 onClick={onRegenerate}
-                className="inline-flex items-center gap-1.5 rounded-md px-2 py-1 text-xs text-muted-foreground hover:bg-muted hover:text-foreground"
+                className="inline-flex items-center gap-1.5 rounded-md px-2 py-1 font-mono text-xs text-zinc-500 hover:bg-zinc-900 hover:text-zinc-200"
               >
                 <RotateCw className="h-3 w-3" /> Regenerate
               </button>
